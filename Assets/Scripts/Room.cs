@@ -6,18 +6,18 @@ public class Room : MonoBehaviour
 {
     [Header("Status")]
     public bool isStartRoom;
+
     [Header("Doors")]
     public GameObject DoorD;
     public GameObject DoorU;
     public GameObject DoorL;
     public GameObject DoorR;
 
-
-    private void Start()
-    {
-
-    }
-
+    [Header("Korytarze")]
+    public GameObject KorytarzD;
+    public GameObject KorytarzU;
+    public GameObject KorytarzL;
+    public GameObject KorytarzR;
 
     public GameObject[] FindObjectsWithTag(Transform parent, string tag)
     {
@@ -32,6 +32,6 @@ public class Room : MonoBehaviour
                 taggedGameObjects.AddRange(FindObjectsWithTag(child, tag));
         }
 
-        return taggedGameObjects.ToArray(); ;
+        return taggedGameObjects.ToArray();
     }
 }
