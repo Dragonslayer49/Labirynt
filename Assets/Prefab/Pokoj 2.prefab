@@ -251,7 +251,7 @@ Transform:
   m_GameObject: {fileID: 8295755336782493795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -279,6 +279,10 @@ MonoBehaviour:
   DoorU: {fileID: 9011958676933432676}
   DoorL: {fileID: 8147022689908216530}
   DoorR: {fileID: 6382087836511418148}
+  KorytarzD: {fileID: 0}
+  KorytarzU: {fileID: 0}
+  KorytarzL: {fileID: 0}
+  KorytarzR: {fileID: 0}
 --- !u!1001 &148146061741851932
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class RoomsPlacer : MonoBehaviour
     [Tooltip("Ilosc pokoji")]
     public int roomsAmount;
     [Tooltip("Rozmiar:")]
-    public int roomSize = 12;
+    public float roomSize = 20;
 
     public Room[,] spawnedRooms;
 
@@ -32,7 +32,7 @@ public class RoomsPlacer : MonoBehaviour
         if (initialRoom != null)
         {
             spawnedRooms[0, 0] = Instantiate(initialRoom);
-            starterRoomPlaced = true; // Mark that the starter room has been placed
+            starterRoomPlaced = true; // Poczatkowy pokoj zostal ustawiony
             initialRoom.transform.position = Vector3.zero;
 
             for (int i = 1; i < roomsAmount; i++) // Start loop from 1 as the first room is already placed
@@ -180,7 +180,7 @@ public class RoomsPlacer : MonoBehaviour
                 Room room = spawnedRooms[x, y];
                 if (room == null) continue;
 
-                // Check each direction and disable Korytarze if they do not connect to another room or if the door is not deleted
+                // Usuwa korytarz jesli nie jest podlaczony do jakiegos pokoju
                 if (room.KorytarzU != null && (y >= maxY || spawnedRooms[x, y + 1] == null || room.DoorU.activeSelf))
                     room.KorytarzU.SetActive(false);
 
