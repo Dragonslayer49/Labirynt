@@ -6,9 +6,9 @@ using TMPro;
 public class ChangePositionAndText : MonoBehaviour
 {
     public TMP_Text Instructions;
-    public TMP_Text pressEnter; 
+    public TMP_Text pressEnter;
+    public GameObject Panel;
     public GameObject door;
-    public GameObject doorBad;
     public GameObject doorGood;
     public Vector3 newPosition;    
     public string[] newText;
@@ -18,38 +18,26 @@ public class ChangePositionAndText : MonoBehaviour
     public float fadeDuration = 1f; // Duration for the fade-in effect
 
     void Start()
-    { 
-
+    {
+        Panel.SetActive(false);
             pressEnter.alpha = 0; // Ensure "Press Enter" is invisible at the start
-        
+        StartCoroutine(TestRoutine(duration));
 
-        }
+    }
 
 void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && routineEnd)
+        if (Input.GetKeyDown(KeyCode.Return) && routineEnd && numer<4)
         {
             Instructions.transform.position = newPosition;
             Instructions.text = newText[numer];
             Debug.Log(newText[numer]);
-            numer++;
-            switch (numer)
+            if (numer == 3)
             {
-                case 4:
-                    Destroy(door);
-                    Destroy(doorBad);
-                    StartCoroutine(TestRoutine(duration));
-                    break;
-                case 5:
-                    Destroy(doorGood);
-                    StartCoroutine(TestRoutine(duration));
-                    //to bylo zle przejscie z kazdym zlym przejsciem naliczane sa punkty probuj nie wchodzic w to samo zle przejscie dwa razy
-                    //robi enter przenosi go na koniec i pisze z kazdym zlym przejsciem zostaniesz przeniesiony na poczatek labiryntu zeby sprobowac ponowanie
-                    //teraz sprobuj przejsc labirynt bez wchodzenia w zle przejscia
-                    break;
+                Destroy(door);
             }
-
             StartCoroutine(TestRoutine(duration));
+            numer++;
         }
     }
 
@@ -61,14 +49,16 @@ void Update()
         yield return new WaitForSeconds(duration);
         Debug.Log($"Ended at {Time.time}");
 
-        if (numer == 4)
+        if (numer == 6|| numer == 4)
         {
             Instructions.text = "";
+            pressEnter.text = "";
             Debug.Log(Instructions.text);
         }
-
-        routineEnd = true;
-        StartCoroutine(FadeInPressEnter(fadeDuration));
+            StartCoroutine(FadeInPressEnter(fadeDuration));
+        
+        
+        
     }
 
     IEnumerator FadeInPressEnter(float duration)
@@ -82,5 +72,14 @@ void Update()
             pressEnter.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
             yield return null;
         }
+        routineEnd = true;
+    }
+    public void AfterBad()
+    {
+        Destroy(doorGood);
+        StartCoroutine(TestRoutine(duration));
+        Debug.Log("ye");
+        Instructions.text = "Wrong way, after every wrong way you will be teleported to beggining location. Try to remember and avoid which paths are wrong";
+        StartCoroutine(TestRoutine(duration));
     }
 }
