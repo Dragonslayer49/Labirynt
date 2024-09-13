@@ -10,6 +10,11 @@ public class Win : MonoBehaviour
     [SerializeField] GameObject winScreen;
     [SerializeField] private TextMeshProUGUI winText;
     //public TextMeshProUGUI counterText;
+    void Start()
+    {
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+    }
     void OnCollisionEnter(Collision collision)
     {
         // Sprawdza czy kolizja ma tag gracza
@@ -38,11 +43,9 @@ public class Win : MonoBehaviour
             // Get collision data from CollisionManager
             var collisionData = CollisionManager.Instance.GetAllCollisionData();
 
-            winText.text = "Collisions:\n";
-
             foreach (var entry in collisionData)
             {
-                winText.text += $"{entry.Key}: {entry.Value}\n";
+                winText.text += $"{entry.Key}-{entry.Value} ";
             }
         }
     }

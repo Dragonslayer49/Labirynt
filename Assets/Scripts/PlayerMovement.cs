@@ -1,32 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
 
-
-    private Rigidbody rb;
+    private Rigidbody rigidbody;
 
     void Awake()
     {
-        // Get the Rigidbody on this GameObject
-        rb = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
+
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     void FixedUpdate()
     {
-        // Get targetMovingSpeed based on overrides
-        float targetMovingSpeed = speed;
-
-
-        // Get input for movement
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        // Calculate targetVelocity
-        Vector2 targetVelocity = new Vector2(x * targetMovingSpeed, z * targetMovingSpeed);
+        Vector2 targetVelocity = new Vector2(x * speed, z * speed);
 
-        // Apply movement.
-        GetComponent<Rigidbody>().velocity = transform.rotation * new Vector3(targetVelocity.x, GetComponent<Rigidbody>().velocity.y, targetVelocity.y);
+        rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
     }
 }

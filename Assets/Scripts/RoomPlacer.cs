@@ -17,7 +17,7 @@ public class RoomsPlacer : MonoBehaviour
 
     public Room[,] spawnedRooms;
 
-    private bool starterRoomPlaced = false; // Flag to ensure the starter room is only placed once
+    private bool starterRoomPlaced = false;
 
     private void Start()
     {
@@ -25,22 +25,19 @@ public class RoomsPlacer : MonoBehaviour
 
         spawnedRooms = new Room[roomsAmount, roomsAmount];
 
-        // Wyszukuje pierwszy pokoj
         var initialRoom = RoomPrefabs.Find(x => x.isStartRoom == true);
 
-        // Jeœli nie ma pierwszego pokoju, ostrze¿enie
+ 
         if (initialRoom != null)
         {
             spawnedRooms[0, 0] = Instantiate(initialRoom);
-            starterRoomPlaced = true; // Poczatkowy pokoj zostal ustawiony
+            starterRoomPlaced = true; 
             initialRoom.transform.position = Vector3.zero;
 
-            for (int i = 1; i < roomsAmount; i++) // Start loop from 1 as the first room is already placed
+            for (int i = 1; i < roomsAmount; i++)
             {
                 PlaceOneRoom();
             }
-
-            // After all rooms are placed, delete unconnected korytarze
             DeleteUnconnectedKorytarze();
         }
         else

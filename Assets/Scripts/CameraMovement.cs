@@ -2,31 +2,28 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public float mouseSensitivity = 100f;
-    public Transform playerBody;
+    public Transform player;
+    public PauseMenu pauseMenu;
 
-    private float xRotation = 0f;
+    float xRotation = 0f;
 
     void Start()
     {
-        // Lock the cursor in the center of the screen
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
-        // Get mouse movement inputs
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * pauseMenu.mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * pauseMenu.mouseSensitivity * Time.deltaTime;
 
-        // Rotate the camera up and down (inverted Y-axis)
+        player.Rotate(Vector3.up * mouseX);
+
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Limit vertical rotation
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Apply the rotation to the camera
+ 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
-        // Rotate the player horizontally based on mouse X input
-        playerBody.Rotate(Vector3.up * mouseX);
     }
 }

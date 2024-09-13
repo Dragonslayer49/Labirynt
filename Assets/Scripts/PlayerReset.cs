@@ -4,54 +4,94 @@ using UnityEngine;
 
 public class PlayerReset : MonoBehaviour
 {
-    // Sprawdza tag gracza
     public string playerTag = "Player";
+    public GameObject resetPanel;
     public Vector3 resetPos;
-    public ChangePositionAndText changePositionAndTextScript;
+    public Tutorial Tutorial;
     public CollisionManager collisionManager;
-
+    private Rigidbody playerRigidbody;
     void Start()
     {
-        // Ensure the ChangePositionAndText script is set
-        if (changePositionAndTextScript == null)
+        if (Tutorial == null)
         {
-            changePositionAndTextScript = FindObjectOfType<ChangePositionAndText>();
+            Tutorial = FindObjectOfType<Tutorial>();
         }
 
-        // Ensure the CollisionManager is set
         collisionManager = CollisionManager.Instance;
         if (collisionManager == null)
         {
-            Debug.LogError("CollisionManager instance not found! Ensure CollisionManager is present in the scene.");
+            Debug.LogError("Brak collisionManagera");
+        }
+        if (resetPanel != null)
+        {
+           resetPanel.SetActive(false);
+        }
+        else
+        {
+          Debug.LogWarning("ResetPanel nie ustawiony");
         }
     }
+
 
     public void OnCollisionEnter(Collision collision)
     {
         // Sprawdza czy kolizja ma tag gracza
         if (collision.gameObject.CompareTag(playerTag))
         {
-            // Resetuje gracza do poczatku labiryntu
+            // Resett gracza
+            playerRigidbody = collision.gameObject.GetComponent<Rigidbody>();
             collision.gameObject.transform.position = resetPos;
 
-            // Register the collision with the CollisionManager
+            StartCoroutine(FreezePlayerForReset(collision.gameObject));
+
+            //Przesyla informacje do collisionManagera
             if (collisionManager != null)
             {
                 collisionManager.RegisterCollision(gameObject.name);
             }
             else
             {
-                Debug.LogWarning("CollisionManager instance is null when trying to register collision.");
+                Debug.LogWarning("CollisionManager brak");
             }
 
-            // Trigger the ChangePositionAndText script
-            if (changePositionAndTextScript != null)
+            //Tutorial
+            if (Tutorial != null)
             {
-                changePositionAndTextScript.AfterBad();
-                Debug.Log("Numer increased to " + changePositionAndTextScript.numer);
+                Tutorial.AfterBad();
+                Debug.Log("Numer to " + Tutorial.numer);
             }
 
-            Debug.Log("Player Reset to " + resetPos);
+            Debug.Log("Resetuje gracza do " + resetPos);
+        }
+    }
+    //zamraza gracza oraz wlacza mu ekran z zlym przejsciem
+    private IEnumerator FreezePlayerForReset(GameObject player)
+    {
+        // Freeze player movement by disabling the Rigidbody
+        if (playerRigidbody != null)
+        {
+            playerRigidbody.isKinematic = true;  // Disables physics for 3 seconds
+        }
+
+        // Show the resetPanel
+        if (resetPanel != null)
+        {
+            resetPanel.SetActive(true);
+        }
+
+        // Wait for 3 seconds
+        yield return new WaitForSeconds(3f);
+
+        // Unfreeze player movement by enabling the Rigidbody again
+        if (playerRigidbody != null)
+        {
+            playerRigidbody.isKinematic = false;  // Re-enables physics
+        }
+
+        // Hide the resetPanel
+        if (resetPanel != null)
+        {
+            resetPanel.SetActive(false);
         }
     }
 }
