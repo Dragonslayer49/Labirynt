@@ -13,17 +13,16 @@ public class CameraMovement : MonoBehaviour
         Cursor.visible = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        float mouseX = Input.GetAxis("Mouse X") * pauseMenu.mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * pauseMenu.mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * pauseMenu.mouseSensitivity * Time.fixedDeltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * pauseMenu.mouseSensitivity * Time.fixedDeltaTime;
 
         player.Rotate(Vector3.up * mouseX);
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
- 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 }

@@ -103,7 +103,7 @@ void Update()
     IEnumerator SequenceAfterBad()
     {
         yield return StartCoroutine(WrongWay(6f));
-        Instructions.text = "Spróbuj zapamiêtaæ z³e przejœcia i przejœc labirynt z minimalnœ iloœci¹ b³êdnych przejœæ";
+        Instructions.text = "Spróbuj zapamiêtaæ z³e przejœcia i przejœc labirynt z minimaln¹ iloœci¹ b³êdnych przejœæ";
         yield return StartCoroutine(FadeInPressEnter(1f, Instructions));
         yield return StartCoroutine(WrongWay(6f));
         Panel.SetActive(false);
