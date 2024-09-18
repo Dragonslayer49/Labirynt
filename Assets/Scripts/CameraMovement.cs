@@ -13,10 +13,10 @@ public class CameraMovement : MonoBehaviour
         Cursor.visible = false;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * pauseMenu.mouseSensitivity * Time.fixedDeltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * pauseMenu.mouseSensitivity * Time.fixedDeltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * pauseMenu.mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * pauseMenu.mouseSensitivity * Time.deltaTime;
 
         player.Rotate(Vector3.up * mouseX);
 
